@@ -8,6 +8,36 @@ import {
   TableRow,
 } from "./ui/table";
 
+function mode(arr: Array<any>) {
+  return arr.sort(
+    (a, b) =>
+      arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
+  )[0];
+}
+
+function ResultCell({
+  number,
+  users,
+}: {
+  number: number;
+  users: Array<{ months: Array<number> }>;
+}) {
+  const flatMonths = users.map((u) => u.months).reduce((a, b) => a.concat(b));
+  const mostCommonElement = mode(flatMonths);
+  const length = flatMonths.filter((m) => m === number).length;
+  return (
+    <TableCell
+      className={
+        flatMonths.filter((m) => m === mostCommonElement).length === length
+          ? "font-bold"
+          : ""
+      }
+    >
+      {length}
+    </TableCell>
+  );
+}
+
 export default function Results({
   users,
 }: {
@@ -47,6 +77,15 @@ export default function Results({
               <TableCell>{user.months.includes(3) ? "✅" : "❌"}</TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell></TableCell>
+            <ResultCell number={10} users={users}></ResultCell>
+            <ResultCell number={11} users={users}></ResultCell>
+            <ResultCell number={12} users={users}></ResultCell>
+            <ResultCell number={1} users={users}></ResultCell>
+            <ResultCell number={2} users={users}></ResultCell>
+            <ResultCell number={3} users={users}></ResultCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>
