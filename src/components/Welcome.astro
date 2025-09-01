@@ -3,10 +3,8 @@ import Poll from "./Poll";
 import Results from "./Results";
 import { db, User, eq } from "astro:db";
 
-const allUsers = await db.select().from(User);
-const currentUser = await Astro.locals.currentUser();
-
 if (Astro.request.method == "POST") {
+  const currentUser = await Astro.locals.currentUser();
   if (!currentUser) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -15,10 +13,11 @@ if (Astro.request.method == "POST") {
     const data = await Astro.request.formData();
     let rawMonths = data.getAll("months")!;
     let months: Array<number> = rawMonths.map((m) => Number(m));
-    console.log(months, typeof months);
-
-    let users = await db.select().from(User).where(eq(User.id, currentUser.id));
+    let users = currentUser
+      ? await db.select().from(User).where(eq(User.id, currentUser.id))
+      : [];
     let user = users[0];
+
     if (!user) {
       await db.insert(User).values({
         id: currentUser.id,
@@ -38,9 +37,16 @@ if (Astro.request.method == "POST") {
     }
   }
 }
+
+const currentUser = await Astro.locals.currentUser();
+const allUsers = await db.select().from(User);
+let users = currentUser
+  ? await db.select().from(User).where(eq(User.id, currentUser.id))
+  : [];
+let user = users[0];
 ---
 
 <div class="container mx-auto mt-4">
-  <Poll client:load />
+  <Poll months={user ? (user.months as Array<number>) : []} client:load />
   <Results users={allUsers as any} />
 </div>
