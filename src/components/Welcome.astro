@@ -3,8 +3,10 @@ import Poll from "./Poll";
 import Results from "./Results";
 import { db, User, eq } from "astro:db";
 
+const allUsers = await db.select().from(User);
+const currentUser = await Astro.locals.currentUser();
+
 if (Astro.request.method == "POST") {
-  const currentUser = await Astro.locals.currentUser();
   if (!currentUser) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -21,10 +23,14 @@ if (Astro.request.method == "POST") {
       await db.insert(User).values({
         id: currentUser.id,
         username: currentUser.username!,
+        icon: currentUser.imageUrl,
         months,
       });
     } else {
-      await db.update(User).set({ months }).where(eq(User.id, currentUser.id));
+      await db
+        .update(User)
+        .set({ months, icon: currentUser.imageUrl })
+        .where(eq(User.id, currentUser.id));
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -36,5 +42,5 @@ if (Astro.request.method == "POST") {
 
 <div class="container mx-auto mt-4">
   <Poll client:load />
-  <Results />
+  <Results users={allUsers as any} />
 </div>
