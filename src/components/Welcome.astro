@@ -1,9 +1,27 @@
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
+// import astroLogo from '../assets/astro.svg';
+// import background from '../assets/background.svg';
+import Poll from "./Poll";
+import Results from "./Results";
+
+if (Astro.request.method == "POST") {
+  try {
+    const data = await Astro.request.formData();
+    console.log(data);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
-<div id="container">
+<div class="container mx-auto mt-4">
+  <Poll client:load />
+  <Results />
+</div>
+
+<!-- <div id="container">
 	<img id="background" src={background.src} alt="" fetchpriority="high" />
 	<main>
 		<section id="hero">
@@ -39,9 +57,7 @@ import background from '../assets/background.svg';
 			improvements in Astro 5.0
 		</p>
 	</a>
-</div>
-
-<style>
+</div> --><!-- <style>
 	#background {
 		position: fixed;
 		top: 0;
@@ -207,4 +223,4 @@ import background from '../assets/background.svg';
 			line-height: 1.5;
 		}
 	}
-</style>
+</style> -->
