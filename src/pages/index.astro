@@ -1,5 +1,5 @@
 ---
-import { SignedIn, SignedOut, SignInButton } from "@clerk/astro/react";
+import { SignedIn, SignedOut, SignIn } from "@clerk/astro/react";
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
 
@@ -9,7 +9,9 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <SignedOut>
-    <SignInButton mode="modal" client:load />
+    <div class="grid place-items-center h-full w-full">
+      <SignIn client:load />
+    </div>
   </SignedOut>
   <SignedIn><Welcome /></SignedIn>
 </Layout>
