@@ -863,7 +863,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@libsql/client@npm:^0.15.2":
+"@libsql/client@npm:^0.15.14, @libsql/client@npm:^0.15.2":
   version: 0.15.14
   resolution: "@libsql/client@npm:0.15.14"
   dependencies:
@@ -3551,6 +3551,7 @@ __metadata:
     "@astrojs/react": "npm:^4.3.0"
     "@clerk/astro": "npm:^2.11.8"
     "@clerk/themes": "npm:^2.4.15"
+    "@libsql/client": "npm:^0.15.14"
     "@radix-ui/react-checkbox": "npm:^1.3.3"
     "@radix-ui/react-label": "npm:^2.1.7"
     "@radix-ui/react-slot": "npm:^1.2.3"
