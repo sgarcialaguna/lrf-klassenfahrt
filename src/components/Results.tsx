@@ -12,7 +12,7 @@ function mode(arr: Array<any>) {
   return arr.sort(
     (a, b) =>
       arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
-  )[0];
+  )[arr.length - 1];
 }
 
 function ResultCell({
